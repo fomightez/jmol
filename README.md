@@ -7,5 +7,9 @@ Useful for things that are more complex than Proteopedia easily allows or when P
 
 ## Technical
 
-When updating Jmol/JSmol first follow directions there & test things at [my development / testing grounds for this repo](https://github.com/fomightez/testjmol).  
+This uses GitHub actions to deploy the static content so no need for commands like `symbolic-ref "refs/heads/gh-pages" "refs/heads/master"` and `git push --mirror`.  
+Example test site:  
+https://fomightez.github.io/jmol/simple.htm
+
+**When updating Jmol/JSmol first** follow directions there & test things at [my development / testing grounds for this repo](https://github.com/fomightez/testjmol).  
 The root in this repo corresponds to the directory `testjmol/jsmol/jsmol/` [there](https://fomightez.github.io/testjmol/jsmol/jsmol/).
