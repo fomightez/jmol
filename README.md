@@ -7,7 +7,7 @@ Useful for things that are more complex than Proteopedia easily allows or when P
 
 ## Technical
 
-This uses GitHub actions to deploy the static content so no need for commands like `symbolic-ref "refs/heads/gh-pages" "refs/heads/master"` and `git push --mirror`.  
+This uses GitHub actions to deploy the static content so no need for `gh-pages` branch or commands like `symbolic-ref "refs/heads/gh-pages" "refs/heads/master"` and `git push --mirror` after each commit and push.  
 Example test site:  
 https://fomightez.github.io/jmol/simple.htm
 
