@@ -1,6 +1,6 @@
 # jmol
 My place for hosting and serving my own Jmol / Jsmol- related content.  
-Useful for things that are more complex than Proteopedia easily allows or when Proteopedia is down or upgrading as the case is currently in early 2026.
+Useful for things that have needs simpler than the Proteopedia interface ends up being. Or for things that more complex than Proteopedia easily allows. Or this can also be for when when Proteopedia is down or upgrading as the case is currently in early 2026.
 
 
 -------------------------------------------------------
