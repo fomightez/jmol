@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="../JSmol.min.js"></script>
+
+<script type="text/javascript">
+
+// 1/21/2013 10:54:15 PM -- adds image handling
+
+var jmolApplet0; // set up in HTML table, below
+
+// logic is set by indicating order of USE -- default is HTML5 for this test page, though
+var use = "HTML5" // JAVA HTML5 WEBGL IMAGE  are all otions
+var s = document.location.search;
+
+
+// Developers: The _debugCode flag is checked in j2s/core/core.z.js, 
+// and, if TRUE, skips loading the core methods, forcing those
+// to be read from their individual directories. Set this
+// true if you want to do some code debugging by inserting
+// System.out.println, document.title, or alert commands
+// anywhere in the Java or Jmol code.
+
+Jmol._debugCode = (s.indexOf("debugcode") >= 0);
+
+jmol_isReady = function(applet) {
+	Jmol._getElement(applet, "appletdiv").style.border="1px solid blue"
+}		
+
+var Styles = [];
+Styles.push(["reset lighting; set cartoonsfancy off;set hermitelevel 0;set antialiasDisplay", "Jmol Fast Style"]);
+Styles.push(["reset lighting; set cartoonsfancy; set hermitelevel 20;set antialiasDisplay;", "Jmol Fancy Style"]);
+Styles.push(["set ambientpercent 25; set specularpower 100; set specularpercent 22; set specularexponent 4; set cartoonsfancy; set antialiasdisplay; set hermitelevel 20;","Chimera Style"]);
+
+
+var scenes = {
+    default8gft: {
+        displayName: "Hsp90, Craf, Cdc37, and PP5",
+        pdb: '8GFT',
+        stateScript: 'hsp90/8gft_state_with_load_and_scale_echo_commented_off_andCartoon_remediated.spt',
+        commands: 'select [ATP]; wireframe 0.3; spacefill 0.35;spacefill on; color white; select [ADP]; wireframe 0.3; spacefill 0.35;spacefill on; color white; select :E; wireframe off; zoom -5; set ribbonborder on; set antialiasdisplay on; set hermitelevel 5; set highResolution ON;background white; set frank off;'
+    },
+    default7z38: {
+        displayName: "Hsp90 with Craf kinase & Cdc37",
+        pdb: '7Z38',
+        stateScript: 'hsp90/7z38_state_with_load_commented_off_andCartoon_remediated.spt',
+        commands: 'select :D; wireframe off; set ribbonborder on; set antialiasdisplay on; set hermitelevel 5; set highResolution ON; background white; set frank off;'
+    },
+    default5fwk: {
+        displayName: "Hsp90 with Cdk4 kinase & Cdc37",
+        pdb: '5FWK',
+        stateScript: 'hsp90/5fwk_state_with_load_commented_off_andCartoon_remediated.spt',
+        commands: 'select :E; wireframe off; select :K; wireframe off; set ribbonborder on; set antialiasdisplay on; set hermitelevel 5; set highResolution ON; background white; zoom +15; set frank off;'
+    },
+    default7krj: {
+        displayName: "Hsp90 with GR & p23",
+        pdb: '7KRJ',
+        stateScript: 'hsp90/7krj_state_with_load_commented_off_andCartoon_remediated.spt',
+        commands: 'select :D; wireframe off; select DEX; wireframe 0.3; spacefill 0.35; set ribbonborder on; set antialiasdisplay on; set hermitelevel 5; set highResolution ON; background white; zoom -5; set frank off;'
+    },
+    default8ffv: {
+        displayName: "Hsp90 with GR & FKBP52",
+        pdb: '8FFV',
+        stateScript: 'hsp90/8ffv_state_with_load_commented_off_andCartoon_remediated.spt',
+        commands: 'select :D; wireframe off; select DEX; wireframe 0.3; spacefill 0.35; set ribbonborder on; set antialiasdisplay on; set hermitelevel 5; set highResolution ON; background white; zoom +6; set frank off;'
+    },
+    default8ffw: {
+        displayName: "Hsp90 with GR & FKBP51",
+        pdb: '8FFW',
+        stateScript: 'hsp90/8ffw_state_with_load_commented_off_andCartoon_remediated.spt',
+        commands: 'select :D; wireframe off; select DEX; wireframe 0.3; spacefill 0.35; set ribbonborder on; set antialiasdisplay on; set hermitelevel 5; set highResolution ON; background white; zoom +3; set frank off;'
+    },
+    default7kw7: {
+        displayName: "Hsp90 with GR & Hsp70 & Hop",
+        pdb: '7KW7',
+        stateScript: 'hsp90/7kw7_state_with_load_commented_off_andCartoon_remediated.spt',
+        commands: 'select :D; wireframe off; select DEX; wireframe 0.3; spacefill 0.35; set ribbonborder on; set antialiasdisplay on; set hermitelevel 5; set highResolution ON; background white; zoom +3; set frank off;'
+    },
+};
+
+
+// Default script
+var default_script = 'load =' + scenes.default8gft.pdb + '; script ' + scenes.default8gft.stateScript + '; ' + scenes.default8gft.commands;
+
+
+function loadScene(sceneName) {
+    if (!sceneName) return;
+    var scene = scenes[sceneName];
+    Jmol.script(jmolApplet0, 'load =' + scene.pdb + '; script ' + scene.stateScript + '; ' + scene.commands);
+    document.getElementById('sceneIndicator').innerHTML = 'Current: ' + scene.displayName;
+}
+
+var Info = {
+	width: 450,
+	height: 450,
+	debug: false,
+	color: "white",
+	addSelectionOptions: false,
+	serverURL: "../php/jsmol.php",
+	use: "HTML5",
+	j2sPath: "../j2s",
+	readyFunction: jmol_isReady,
+	script: default_script,
+	//jarPath: "java",
+	//jarFile: (useSignedApplet ? "JmolAppletSigned.jar" : "JmolApplet.jar"),
+	//isSigned: useSignedApplet,
+	//disableJ2SLoadMonitor: true,
+	disableInitialConsole: true
+	//defaultModel: "$dopamine",
+	//console: "none", // default will be jmolApplet0_infodiv
+}
+
+
+// these are conveniences that mimic behavior of Jmol.js
+
+function jmolCheckbox(script1, script0,text,ischecked) {Jmol.jmolCheckbox(jmolApplet0,script1, script0, text, ischecked)}
+function jmolButton(script, text) {Jmol.jmolButton(jmolApplet0, script,text)}
+function jmolHtml(s) { document.write(s) };
+function jmolBr() { jmolHtml("<br>") }
+function jmolMenu(a) {Jmol.jmolMenu(jmolApplet0, a)}
+
+
+</script>
+</head>
+<body>
+
+<center>
+
+
+<table><tr>
+<td align=center>
+
+<script type="text/javascript">
+
+jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+
+</script>
+</td><td rowspan=2>
+<form><!-- (FORM tag is important to automatically set checkbox off when page reloads) -->
+<script type="text/javascript">
+Jmol.setButtonCss(null,"style='width:160px'")
+Jmol.setMenuCss(null,"style='width:160px'")
+jmolHtml("Hsp90 Scenes:")
+jmolBr()
+jmolHtml("<select style='width:160px' onchange='loadScene(this.value); this.selectedIndex=this.selectedIndex;'>"
+    + "<option value=''>-- select a scene --</option>"
+    + "<option value='default8gft'>Hsp90, Craf, Cdc37, and PP5</option>"
+    + "<option value='default7z38'>Hsp90 with Craf kinase & Cdc37</option>"
+    + "</select>")
+jmolBr()
+jmolBr()
+jmolMenu(Styles)
+jmolBr()
+jmolCheckbox("set antialiasdisplay TRUE","set antialiasdisplay FALSE","antialiasDisplay",true)
+jmolBr()
+jmolCheckbox("h2oOn=true;display *","h2oOn=false;display !water","display water",true)
+jmolBr()
+jmolCheckbox("set zshade true","set zshade false","zshade (fog)",false)
+jmolBr()
+jmolCheckbox("background black","background white","background black",false)
+jmolBr()
+jmolBr()
+jmolButton("write FILE ?","Save FILE")
+jmolBr()
+jmolButton("write IMAGE jsmol.jpg","Save JPG")
+jmolBr()
+jmolButton("write IMAGE jsmol.png","Save PNG")
+jmolBr()
+jmolButton("write jsmol.jmol","Save Jmol")
+jmolBr()
+jmolButton("write PNGJ jsmol.png","Save PNG+Jmol")
+jmolBr()
+jmolButton("write STATE jsmol.spt","Save STATE")
+jmolBr()
+
+
+</script>
+</form>
+</td></tr>
+<tr>
+<td align=center>
+
+
+
+
+<div id="sceneIndicator" style="font-size:12px; color:#7f8c8d; font-style:italic; margin-top:8px;"></div>
+<script type="text/javascript">
+document.getElementById('sceneIndicator').innerHTML = 'Current: ' + scenes.default8gft.displayName;
+jmolBr()
+Jmol.setButtonCss(null,"style='width:120px'")
+jmolButton("color cpk")
+jmolButton("color group")
+jmolButton("color amino")
+jmolButton("color structure")
+jmolBr()
+Jmol.setButtonCss(null,"style='width:96px'")
+jmolButton("backbone only", "backbone")
+jmolButton("trace only", "trace")
+jmolButton("cartoon only", "cartoon")
+jmolButton("spacefill only", "spacefill")
+jmolButton("spacefill only;spacefill 23%;wireframe 0.15","ball&stick")
+jmolBr()
+Jmol.setButtonCss(null,"style='width:100px'")
+jmolButton("console")
+Jmol.jmolCommandInput(jmolApplet0)
+</script>
+
+</td></tr></table>
+
+</body>
+</html>
