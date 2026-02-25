@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hsp90 Mobile</title>
+    <title>Explore Hsp90 on Mobile</title>
     <script type="text/javascript" src="../JSmol.min.js"></script>
     <style>
         * {
@@ -288,15 +288,6 @@
                 <div class="control-section" style="margin-top: 20px;">
                     <div class="button-group">
                         <script type="text/javascript">
-                            Jmol.setButtonCss(null, "");
-                            jmolButton("color cpk", "CPK");
-                            jmolButton("color group", "Group");
-                            jmolButton("color amino", "Amino");
-                            jmolButton("color structure", "Structure");
-                        </script>
-                    </div>
-                    <div class="button-group">
-                        <script type="text/javascript">
                             jmolButton("backbone only", "Backbone");
                             jmolButton("trace only", "Trace");
                             jmolButton("cartoon only", "Cartoon");
@@ -317,30 +308,33 @@
                 <form>
                     <div class="control-section">
                         <h3>Scenes</h3>
-                        <select style="width: 100%;" onchange="loadScene(this.value)">
-                            <option value="default8gft">Hsp90, Craf, Cdc37, and PP5</option>
-                            <option value="default7z38">Hsp90 with Craf kinase &amp; Cdc37</option>
-                        </select>
+                        <script type="text/javascript">
+                            var sceneOptions = "<select style='width:100%' onchange='loadScene(this.value)'>";
+                            for (var key in scenes) {
+                                sceneOptions += "<option value='" + key + "'>" + scenes[key].displayName + "</option>";
+                            }
+                            sceneOptions += "</select>";
+                            document.write(sceneOptions);
+                        </script>
                     </div>
-
 
                     
                     
                     <div class="control-section">
                         <h3>Display Options</h3>
                         <script type="text/javascript">
-                            jmolCheckbox("if (getproperty('shapeInfo.isosurface').length) {isosurface on} else {isosurface @{'=' + _modelName};}", "isosurface off", "show electron density", false);
-                            jmolBr();
                             Jmol.setMenuCss(null, "width: 100%;");
                             jmolMenu(Styles);
                             jmolBr();
-                            jmolCheckbox("set antialiasdisplay TRUE", "set antialiasdisplay FALSE", "antialiasDisplay", true);
+                            jmolCheckbox("spin on", "spin off", "spin", false);
                             jmolBr();
-                            jmolCheckbox("display *", "display !water", "display water", true);
+                            jmolCheckbox("background black", "background white", "background black", false);
                             jmolBr();
                             jmolCheckbox("set zshade true", "set zshade false", "zshade (fog)", false);
                             jmolBr();
-                            jmolCheckbox("background black", "background white", "background black", false);
+                            jmolCheckbox("set antialiasdisplay TRUE", "set antialiasdisplay FALSE", "antialiasDisplay", true);
+                            jmolBr();
+                            jmolButton("select all; labels off;", "Hide Labels");
                         </script>
                     </div>
                     
